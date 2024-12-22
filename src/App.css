@@ -455,3 +455,16 @@ header button:hover {
   border: none;
   background-color: transparent;
 }
+
+.del {
+  cursor: pointer;
+  transition: all .3s linear;
+}
+.del:hover {
+  color: white;
+
+}
+.loading {
+  width: 100%;
+  text-align: center;
+}

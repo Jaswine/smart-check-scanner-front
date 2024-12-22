@@ -1,10 +1,47 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import PhonImage from '../assets/phone_pict.png';
-import email from '../assets/free-icon-envelope-481658.png'
 import pass from '../assets/free-icon-lock-5953216.png'
 import photo from '../assets/gradient.png'
 import Slider from './slider';
-const Login = () => {
+import { $axios } from '../api';
+import useAuth from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+
+function Login() {
+  const {isAuth, setIsAuth}  = useAuth()
+  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect (() => {
+    document.title = 'Login'
+
+    if (isAuth) {
+        navigate('/')
+    }
+  }, [])
+
+  const login = (e) => {
+    e.preventDefault()
+    $axios.post('/auth/sign-in/', {
+        email: email, 
+        password: password
+    })
+        .then((response) => {
+            localStorage.setItem('token', response.data.access)
+            setIsAuth(true)
+
+            window.location.reload()
+            navigate('/')
+        })
+        .catch((error) => {
+            console.error(error)
+            setError(error.response.data.message)
+        })
+  }
+
+
   return (
     <div className="Login-Base-div">
             <img className='Login-Base-div_img'  src={PhonImage} alt="Phon" />
@@ -18,19 +55,32 @@ const Login = () => {
                     <h1 className='Login-Base-text-h1'>Login</h1>
                     <h4>Don't have an account?
                         
-                        <a className='Login-Base-div_a'>Register</a>
+                        <a className='Login-Base-div_a' href='/register'>Registration</a>
                         </h4>
                 <div className='Login-Base-div-input_1'>
                     <div className='Login-Base-div4'><img src={email} alt="" /></div>
                     <label htmlFor="">Email</label>
-                    <input type="text" className='Login-Base-div_input' placeholder='Enter your email' required/>
+                    <input 
+                    type="text" 
+                    className='Login-Base-div_input' 
+                    placeholder='Enter your email' 
+                    value={email}
+                    onChange = {e=> setEmail(e.target.value)}
+                    required/>
                 </div>
                 <div className='Login-Base-div-input_1'>
                     <div className='Login-Base-div4'><img src={pass} alt="" /></div>
                     <label htmlFor="">Password</label>
-                    <input className='Login-Base-div_input' type="password" placeholder='Enter your password' required/>
+                    <input 
+                    className='Login-Base-div_input' 
+                    type="password" 
+                    placeholder='Enter your password' 
+                    value={password}
+                    onChange = {e=> setPassword(e.target.value)}
+                    required/>
                 </div>
-                <button type='submit' className='button'>Login</button>
+                <button type='submit' 
+                className='button' onClick={login}>Login</button>
                 </div>
 
 

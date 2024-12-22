@@ -1,18 +1,19 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Registration } from './components/registration';
-import Login from './components/login';
 import Home from './components/Home';
+import useAuth from './hooks/useAuth'
+import Registration from './components/Registration';
+import Login from './components/Login';
 
 function App() {
+  const {isAuth} =useAuth()
+
   return (
-    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/login" element={<Login />} />
+        {isAuth && (<Route path="/" element={<Home />} />)}
       </Routes>
-    </BrowserRouter>
   );
 }
 

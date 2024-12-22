@@ -1,5 +1,3 @@
-import React from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import PhonImage from '../assets/phone_pict.png';
 import email from '../assets/free-icon-envelope-481658.png';
 import pass from '../assets/free-icon-lock-5953216.png';
@@ -7,7 +5,7 @@ import user from '../assets/free-icon-user-profile-16876871.png';
 import photo from '../assets/gradient.png';
 import Slider from './slider';
 
-export const Registration = () => {
+function Registration() {
   return (
     <div className="Login-Base-div">
       <img className="Login-Base-div_img" src={PhonImage} alt="Phon" />
@@ -17,7 +15,7 @@ export const Registration = () => {
             <h1 className="Login-Base_h1">Get started</h1>
             <h4>
               Already have an account? 
-              <a className="Login-Base-div_a">Login</a>
+              <a className="Login-Base-div_a" href='/login'>Login</a>
             </h4>
 
             <div className='Login-Base-div-input_1'>
@@ -58,3 +56,5 @@ export const Registration = () => {
     </div>
   );
 };
+
+export default Registration;
